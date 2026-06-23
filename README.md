@@ -1,6 +1,6 @@
 # News Podcast Generator
 
-A local web app that automatically generates news podcasts — select topics, review sources, generate an AI-written script, and convert it to speech — all from a single browser interface. Runs entirely on free tools, no cloud subscription required.
+A local web app that automatically generates news podcasts, select topics, review sources, generate an AI-written script, and convert it to speech all from a single browser interface. Runs entirely on free tools, no cloud subscription required.
 
 ## Features
 
@@ -19,7 +19,7 @@ A local web app that automatically generates news podcasts — select topics, re
 | Frontend | Bootstrap 5 + Vanilla JS |
 | News Search | DuckDuckGo (ddgs) |
 | Embeddings | all-MiniLM-L6-v2 (HuggingFace) |
-| Vector Store | ChromaDB (in-memory) |
+| Vector Store | ChromaDB  |
 | LLM | Groq (llama-3.3-70b, qwen3-32b, etc.) |
 | TTS | edge-tts (Microsoft Edge neural voices) |
 
