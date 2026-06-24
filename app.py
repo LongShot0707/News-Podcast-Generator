@@ -104,7 +104,6 @@ def fetch_news(data: FetchNewsRequest):
         },
     }
 
-
 @app.post("/generate-script")
 def generate_script_endpoint(data: GenerateScriptRequest):
     if not data.articles_by_topic:
