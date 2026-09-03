@@ -23,7 +23,7 @@ def _build_context(news_by_topic):
     return docs
 
 
-def generate_script(news_by_topic, model="llama-3.3-70b-versatile"):
+def generate_script(news_by_topic, model="qwen/qwen3.8-27b"):
     docs = _build_context(news_by_topic)
     if not docs:
         return "No news found for the selected topics. Try different topics or check back later."

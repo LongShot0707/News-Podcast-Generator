@@ -1,4 +1,4 @@
-﻿.env
+.env
 venv/
 env/
 ENV/
@@ -35,3 +35,6 @@ tmp/
 htmlcov/
 
 .env.*
+
+# uv virtual environment
+.venv/

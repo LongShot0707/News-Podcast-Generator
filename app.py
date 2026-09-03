@@ -44,10 +44,11 @@ TIMELIMITS = {
 }
 
 GROQ_MODELS: dict[str, str] = {
-    "Llama 3.3 70B": "llama-3.3-70b-versatile",
-    "Llama 3.1 8B": "llama-3.1-8b-instant",
-    "Llama 4 Scout 17B": "meta-llama/llama-4-scout-17b-16e-instruct",
-    "Qwen 3 32B": "qwen/qwen3-32b",
+    "Qwen 3.6 27B": "qwen/qwen3.6-27b",
+    "Qwen 3.8 27B": "qwen/qwen3.8-27b",
+    "OpenAI GPT-OSS 120B": "openai/gpt-oss-120b",
+    "OpenAI GPT-OSS 20B": "openai/gpt-oss-20b",
+    "Groq Compound": "groq/compound",
 }
 
 
@@ -59,7 +60,7 @@ class FetchNewsRequest(BaseModel):
 
 class GenerateScriptRequest(BaseModel):
     articles_by_topic: dict[str, list[dict]]
-    model: str = "llama-3.3-70b-versatile"
+    model: str = "qwen/qwen3.8-27b"
 
 
 class GenerateAudioRequest(BaseModel):
