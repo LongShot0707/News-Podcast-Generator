@@ -1,39 +1,25 @@
 import os
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
-from langchain_classic.chains import RetrievalQA
 from langchain_core.prompts import PromptTemplate
-from langchain_community.vectorstores import Chroma
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_core.documents import Document
 
 load_dotenv()
 
 
 def _build_context(news_by_topic):
-    docs = []
+    lines = []
     for topic, articles in news_by_topic.items():
         for article in articles:
-            text = f"Title: {article['title']}\n{article['body']}"
-            docs.append(Document(
-                page_content=text,
-                metadata={"topic": topic, "title": article["title"]},
-            ))
-    return docs
+            lines.append(
+                f"[{topic}] {article['title']}\n{article['body']}"
+            )
+    return "\n\n".join(lines)
 
 
 def generate_script(news_by_topic, model="qwen/qwen3.8-27b"):
-    docs = _build_context(news_by_topic)
-    if not docs:
+    context = _build_context(news_by_topic)
+    if not context.strip():
         return "No news found for the selected topics. Try different topics or check back later."
-
-    splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
-    chunks = splitter.split_documents(docs)
-
-    embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-    vectorstore = Chroma.from_documents(chunks, embeddings)
-    retriever = vectorstore.as_retriever(search_kwargs={"k": len(chunks)})
 
     llm = ChatGroq(
         model=model,
@@ -51,13 +37,7 @@ def generate_script(news_by_topic, model="qwen/qwen3.8-27b"):
         ),
     )
 
-    chain = RetrievalQA.from_llm(
-        llm=llm,
-        retriever=retriever,
-        prompt=prompt,
-    )
-    result = chain.invoke({"query": "Write a podcast script summarizing these news articles."})
+    chain = prompt | llm
+    result = chain.invoke({"context": context})
 
-    vectorstore.delete_collection()
-
-    return result["result"]
+    return result.content
